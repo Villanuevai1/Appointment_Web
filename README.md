@@ -1,4 +1,6 @@
 # Online Appointment Scheduling System
+<img width="2532" height="943" alt="image" src="https://github.com/user-attachments/assets/fdd56082-50bd-4793-91a8-61f5e63d2c5e" />
+
 
 A Spring Boot web application for managing tutor appointments with built-in booking protection, real-time metrics, and notification support.
 
