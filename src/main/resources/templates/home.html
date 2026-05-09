@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointment Scheduling System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f7fc;
+      margin: 0;
+      padding: 0;
+      color: #1f2937;
+    }
+
+    .navbar {
+      background-color: #1e3a8a;
+      color: white;
+      padding: 18px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.10);
+      padding: 40px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #1e3a8a;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 18px;
+      color: #4b5563;
+      margin-bottom: 25px;
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: bold;
+      background-color: #2563eb;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <h2>Appointment System</h2>
+  <div class="nav-links">
+    <a href="/" th:href="@{/}">Home</a>
+    <a href="/appointments" th:href="@{/appointments}">Appointments</a>
+    <a href="/health" th:href="@{/health}">Health</a>
+    <a href="/metrics" th:href="@{/metrics}">Metrics</a>
+  </div>
+</div>
+
+<div class="container">
+  <div class="card">
+    <h1>Appointment Scheduling System</h1>
+    <p>Welcome to the tutoring appointment system.</p>
+    <a href="/appointments" th:href="@{/appointments}" class="btn">View Appointments</a>
+    <a href="/metrics" th:href="@{/metrics}" class="btn" style="margin-left: 10px; background-color: #0f766e;">View Metrics</a>
+  </div>
+</div>
+
+</body>
+</html>
+

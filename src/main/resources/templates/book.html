@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment</title>
+</head>
+<body>
+<h1>Book Appointment</h1>
+<form action="/book" th:action="@{/book}" method="post">
+  <label>Student Name:</label><br>
+  <input type="text" name="studentName" placeholder="Enter your name" title="Student Name" required><br><br>
+
+  <label>Select Slot:</label><br>
+  <input type="text" name="appointmentSlot" placeholder="e.g. March 15, 2026 at 10:00 AM" title="Appointment Slot" required><br><br>
+
+  <label>Subject:</label><br>
+  <input type="text" name="subject" placeholder="e.g. Mathematics" title="Subject" required><br><br>
+
+  <button type="submit">Submit</button>
+</form>
+</body>
+</html>

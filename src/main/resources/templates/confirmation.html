@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f7fc;
+      margin: 0;
+      padding: 0;
+      color: #1f2937;
+    }
+
+    .navbar {
+      background-color: #1e3a8a;
+      color: white;
+      padding: 18px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.10);
+      padding: 40px;
+      text-align: center;
+    }
+
+    .checkmark {
+      font-size: 60px;
+      color: #15803d;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      color: #1e3a8a;
+      margin-bottom: 15px;
+    }
+
+    .details {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    .details p {
+      margin: 8px 0;
+      font-size: 16px;
+      color: #1f2937;
+    }
+
+    .details strong {
+      color: #1e3a8a;
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: bold;
+      background-color: #2563eb;
+      color: white;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <h2>Appointment System</h2>
+  <div class="nav-links">
+    <a href="/" th:href="@{/}">Home</a>
+    <a href="/appointments" th:href="@{/appointments}">Appointments</a>
+  </div>
+</div>
+
+<div class="container">
+  <div class="card">
+    <div class="checkmark">&#10003;</div>
+    <h1>Appointment Confirmed!</h1>
+    <p>Your tutoring appointment has been successfully booked.</p>
+
+    <div class="details">
+      <p><strong>Student Name:</strong> <span th:text="${studentName}">N/A</span></p>
+      <p><strong>Appointment Slot:</strong> <span th:text="${appointmentSlot}">N/A</span></p>
+      <p><strong>Subject:</strong> <span th:text="${subject}">N/A</span></p>
+    </div>
+
+    <a href="/" th:href="@{/}" class="btn">Back to Home</a>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointments</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f3f7fc;
+      color: #1f2937;
+    }
+
+    .navbar {
+      background-color: #1e3a8a;
+      color: white;
+      padding: 18px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar h2 {
+      font-size: 24px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    .page-card {
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.10);
+      padding: 35px;
+    }
+
+    .page-card h1 {
+      color: #1e3a8a;
+      margin-bottom: 12px;
+      font-size: 36px;
+    }
+
+    .page-card p {
+      color: #4b5563;
+      margin-bottom: 25px;
+      font-size: 17px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    th {
+      background-color: #2563eb;
+      color: white;
+      padding: 14px;
+      text-align: left;
+    }
+
+    td {
+      padding: 14px;
+      border-bottom: 1px solid #e5e7eb;
+      background-color: #ffffff;
+    }
+
+    tr:hover td {
+      background-color: #f8fbff;
+    }
+
+    .status {
+      font-weight: bold;
+      color: #15803d;
+    }
+
+    .button-row {
+      margin-top: 25px;
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: bold;
+      margin-right: 12px;
+      transition: 0.3s;
+    }
+
+    .btn-primary {
+      background-color: #2563eb;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #1d4ed8;
+    }
+
+    .btn-secondary {
+      background-color: #e5e7eb;
+      color: #111827;
+    }
+
+    .btn-secondary:hover {
+      background-color: #d1d5db;
+    }
+
+    .btn-book {
+      padding: 8px 14px;
+      font-size: 13px;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 520px;
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.35);
+      padding: 24px;
+    }
+
+    .modal h3 {
+      color: #1e3a8a;
+      margin-bottom: 10px;
+    }
+
+    .modal .summary {
+      background: #f8fbff;
+      border: 1px solid #dbeafe;
+      border-radius: 12px;
+      padding: 12px;
+      margin: 14px 0 16px;
+      color: #334155;
+      line-height: 1.6;
+    }
+
+    .modal label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    .modal input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .modal-message {
+      min-height: 20px;
+      margin-top: 10px;
+      color: #b91c1c;
+      font-size: 14px;
+    }
+
+    .spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(255, 255, 255, 0.35);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    .btn-loading .spinner {
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+
+      .nav-links a {
+        margin: 0 10px;
+      }
+
+      .page-card h1 {
+        font-size: 30px;
+      }
+
+      table, thead, tbody, th, td, tr {
+        display: block;
+        width: 100%;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tr {
+        margin-bottom: 15px;
+        border: 1px solid #dbeafe;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      td {
+        border-bottom: 1px solid #e5e7eb;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <h2>Appointment System</h2>
+  <div class="nav-links">
+    <a href="/" th:href="@{/}">Home</a>
+    <a href="/appointments" th:href="@{/appointments}">Appointments</a>
+    <a href="/history" th:href="@{/history}">History</a>
+    <a href="/health" th:href="@{/health}">Health</a>
+    <a href="/metrics" th:href="@{/metrics}">Metrics</a>
+  </div>
+</div>
+
+<div class="container">
+  <div class="page-card">
+    <h1>Available Appointments</h1>
+    <p>Below is a sample list of tutoring appointments currently available in the system.</p>
+
+    <table>
+      <thead>
+      <tr>
+        <th>Tutor</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Subject</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody th:fragment="slots">
+      <tr th:each="slot : ${slots}">
+        <td th:text="${providers[slot.providerId]}">Tutor</td>
+        <td th:text="${slot.startTime}">Date</td>
+        <td th:text="${slot.startTime}">Time</td>
+        <td th:text="${slot.subject}">Subject</td>
+        <td class="status" th:text="${slot.status == 'OPEN' ? 'Available' : 'Unavailable'}">Status</td>
+        <td>
+          <button th:if="${slot.status == 'OPEN'}" class="btn btn-primary btn-book"
+                  th:attr="data-slot-id=${slot.id},data-provider-id=${slot.providerId},data-service-id=1,data-tutor-name=${providers[slot.providerId]},data-subject=${slot.subject},data-start-time=${slot.startTime}">Book</button>
+          <button th:unless="${slot.status == 'OPEN'}" class="btn btn-secondary" disabled>Unavailable</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="button-row">
+      <a href="/" th:href="@{/}" class="btn btn-secondary">Back Home</a>
+      <a href="/slots/new" class="btn btn-primary">Add Slot</a>
+      <a href="/history" th:href="@{/history}" class="btn btn-secondary">View History</a>
+      <a href="/appointments" th:href="@{/appointments}" class="btn btn-primary">Refresh Page</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="bookingModalBackdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="bookingModalTitle">
+    <h3 id="bookingModalTitle">Confirm Booking</h3>
+    <div class="summary" id="bookingSummary"></div>
+    <label for="modalStudentId">Student ID</label>
+    <input id="modalStudentId" type="number" min="1" placeholder="Enter student id" />
+    <label for="modalSubject">Subject</label>
+    <input id="modalSubject" type="text" maxlength="120" placeholder="Enter subject for the booking" />
+    <div class="modal-actions">
+      <button type="button" class="btn btn-secondary" id="cancelBookingBtn">Cancel</button>
+      <button type="button" class="btn btn-primary" id="confirmBookingBtn">
+        <span class="spinner" aria-hidden="true"></span>
+        <span id="confirmBookingText">Book</span>
+      </button>
+    </div>
+    <div class="modal-message" id="bookingModalMessage"></div>
+  </div>
+</div>
+
+  <script>
+  const bookingModalBackdrop = document.getElementById('bookingModalBackdrop');
+  const bookingSummary = document.getElementById('bookingSummary');
+  const modalStudentId = document.getElementById('modalStudentId');
+  const modalSubject = document.getElementById('modalSubject');
+  const bookingModalMessage = document.getElementById('bookingModalMessage');
+  const cancelBookingBtn = document.getElementById('cancelBookingBtn');
+  const confirmBookingBtn = document.getElementById('confirmBookingBtn');
+  const confirmBookingText = document.getElementById('confirmBookingText');
+
+  let activeBookingButton = null;
+  let activeBookingData = null;
+
+  function openBookingModal(button) {
+    activeBookingButton = button;
+    activeBookingData = {
+      slotId: Number(button.dataset.slotId),
+      providerId: Number(button.dataset.providerId || 1),
+      serviceId: Number(button.dataset.serviceId || 1),
+      tutorName: button.dataset.tutorName || 'Tutor',
+      startTime: button.dataset.startTime || '',
+      subject: button.dataset.subject || 'Tutoring'
+    };
+
+    bookingSummary.innerHTML = `
+      <strong>${activeBookingData.tutorName}</strong><br>
+      ${activeBookingData.subject}<br>
+      ${activeBookingData.startTime}
+    `;
+    bookingModalMessage.textContent = '';
+    modalStudentId.value = window.currentStudentId || '';
+    modalSubject.value = activeBookingData.subject;
+    bookingModalBackdrop.classList.add('open');
+    bookingModalBackdrop.setAttribute('aria-hidden', 'false');
+    setTimeout(() => modalStudentId.focus(), 0);
+  }
+
+  function closeBookingModal() {
+    bookingModalBackdrop.classList.remove('open');
+    bookingModalBackdrop.setAttribute('aria-hidden', 'true');
+    bookingModalMessage.textContent = '';
+    activeBookingButton = null;
+    activeBookingData = null;
+  }
+
+  function setLoading(isLoading) {
+    confirmBookingBtn.disabled = isLoading;
+    cancelBookingBtn.disabled = isLoading;
+    modalStudentId.disabled = isLoading;
+    modalSubject.disabled = isLoading;
+    confirmBookingBtn.classList.toggle('btn-loading', isLoading);
+    confirmBookingText.textContent = isLoading ? 'Booking...' : 'Book';
+  }
+
+  function markSlotUnavailable(button) {
+    const row = button.closest('tr');
+    const statusCell = row.querySelector('.status');
+    if (statusCell) statusCell.textContent = 'Unavailable';
+    button.textContent = 'Unavailable';
+    button.disabled = true;
+  }
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-book');
+    if (btn) {
+      openBookingModal(btn);
+      return;
+    }
+
+    if (e.target === bookingModalBackdrop) {
+      closeBookingModal();
+    }
+  });
+
+  cancelBookingBtn.addEventListener('click', closeBookingModal);
+
+  confirmBookingBtn.addEventListener('click', async () => {
+    if (!activeBookingButton || !activeBookingData) return;
+
+    const studentId = Number(modalStudentId.value);
+    if (!studentId || studentId < 1) {
+      bookingModalMessage.textContent = 'Please enter a valid student id.';
+      return;
+    }
+
+    const subject = modalSubject.value.trim();
+    if (!subject) {
+      bookingModalMessage.textContent = 'Please enter a subject for this booking.';
+      return;
+    }
+
+    window.currentStudentId = studentId;
+    setLoading(true);
+
+    try {
+      const resp = await fetch('/api/appointments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          slotId: activeBookingData.slotId,
+          studentId,
+          providerId: activeBookingData.providerId,
+          serviceId: activeBookingData.serviceId,
+          subject
+        })
+      });
+
+      if (resp.status === 201) {
+        markSlotUnavailable(activeBookingButton);
+        closeBookingModal();
+      } else if (resp.status === 409) {
+        const text = await resp.text();
+        markSlotUnavailable(activeBookingButton);
+        bookingModalMessage.textContent = text;
+      } else {
+        bookingModalMessage.textContent = await resp.text();
+      }
+    } catch (ex) {
+      bookingModalMessage.textContent = 'Network error while booking: ' + ex.message;
+    } finally {
+      setLoading(false);
+    }
+  });
+  </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointment History</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f3f7fc; margin: 0; color: #1f2937; }
+    .navbar { background-color: #1e3a8a; color: white; padding: 18px 40px; display: flex; justify-content: space-between; align-items: center; }
+    .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: bold; }
+    .container { max-width: 1100px; margin: 50px auto; padding: 0 20px; }
+    .page-card { background: white; border-radius: 18px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.10); padding: 35px; }
+    h1 { color: #1e3a8a; margin-bottom: 12px; font-size: 36px; }
+    p { color: #4b5563; margin-bottom: 25px; font-size: 17px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th { background-color: #2563eb; color: white; padding: 14px; text-align: left; }
+    td { padding: 14px; border-bottom: 1px solid #e5e7eb; }
+    .empty { padding: 16px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 12px; color: #475569; }
+    .button-row { margin-top: 25px; }
+    .btn { display: inline-block; text-decoration: none; padding: 12px 20px; border-radius: 10px; font-size: 15px; font-weight: bold; margin-right: 12px; }
+    .btn-primary { background-color: #2563eb; color: white; }
+    .btn-secondary { background-color: #e5e7eb; color: #111827; }
+    @media (max-width: 768px) { .navbar { flex-direction: column; gap: 10px; text-align: center; } .nav-links a { margin: 0 10px; } }
+  </style>
+</head>
+<body>
+<div class="navbar">
+  <h2>Appointment System</h2>
+  <div class="nav-links">
+    <a href="/" th:href="@{/}">Home</a>
+    <a href="/appointments" th:href="@{/appointments}">Appointments</a>
+    <a href="/history" th:href="@{/history}">History</a>
+    <a href="/health" th:href="@{/health}">Health</a>
+    <a href="/metrics" th:href="@{/metrics}">Metrics</a>
+  </div>
+</div>
+
+<div class="container">
+  <div class="page-card">
+    <h1>Booked Appointments</h1>
+    <p>This page lists the appointments stored in the database.</p>
+
+    <div th:if="${#lists.isEmpty(appointments)}" class="empty">No appointments have been booked yet.</div>
+
+    <table th:unless="${#lists.isEmpty(appointments)}">
+      <thead>
+      <tr>
+        <th>Appointment ID</th>
+        <th>Tutor</th>
+        <th>Subject</th>
+        <th>Student ID</th>
+        <th>Service ID</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Booked At</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="appointment : ${appointments}">
+        <td th:text="${appointment.appointmentId}">1</td>
+        <td th:text="${providers[appointment.providerId]}">Tutor</td>
+        <td th:text="${appointment.subject}">Subject</td>
+        <td th:text="${appointment.studentId}">Student</td>
+        <td th:text="${appointment.serviceId}">Service</td>
+        <td th:text="${appointment.displayStartTime}">Start</td>
+        <td th:text="${appointment.displayEndTime}">End</td>
+        <td th:text="${appointment.displayCreatedAt}">Created</td>
+        <td>
+          <form th:action="@{/appointments/{id}/cancel(id=${appointment.appointmentId})}" method="post"
+                onsubmit="return confirm('Cancel this appointment and reopen the slot?');">
+            <button type="submit" class="btn btn-secondary">Cancel</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="button-row">
+      <a href="/appointments" th:href="@{/appointments}" class="btn btn-primary">Back to Slots</a>
+      <a href="/" th:href="@{/}" class="btn btn-secondary">Back Home</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

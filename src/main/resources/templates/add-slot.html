@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Slot</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 40px; }
+    label { display:block; margin-top:10px; }
+    input, select { padding:8px; width:300px; }
+    .btn { margin-top: 12px; padding:10px 14px; }
+  </style>
+</head>
+<body>
+  <h1>Add Availability Slot</h1>
+  <form method="post" action="/slots">
+    <label for="providerId">Provider</label>
+    <select id="providerId" name="providerId">
+      <option th:each="p : ${providers.entrySet()}" th:value="${p.key}" th:text="${p.value}">Provider</option>
+    </select>
+
+    <label for="subject">Subject</label>
+    <select id="subject" name="subject" required>
+      <option value="" disabled selected>Select a subject</option>
+      <option th:each="subject : ${subjects.entrySet()}"
+              th:value="${subject.key}"
+              th:text="${subject.value}">Subject</option>
+    </select>
+
+    <label for="startTime">Start (YYYY-MM-DD HH:MM)</label>
+    <input id="startTime" name="startTime" placeholder="2026-05-10 10:00" required />
+
+    <label for="endTime">End (YYYY-MM-DD HH:MM)</label>
+    <input id="endTime" name="endTime" placeholder="2026-05-10 10:30" required />
+
+    <div>
+      <button class="btn" type="submit">Create Slot</button>
+      <a href="/appointments">Cancel</a>
+    </div>
+  </form>
+</body>
+</html>
